@@ -3,10 +3,22 @@ import { StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import Logo from '../../assets/logo.svg';
+import { Car } from '../../components/Car';
 
 import { Container, Header, HeaderContent, TotalCars } from './styles';
 
 export function Home() {
+  const carData = {
+    brand: 'Fiat',
+    name: 'Uno',
+    rent: {
+      price: 100,
+      period: 'diária',
+    },
+    thumbnail:
+      'https://w7.pngwing.com/pngs/466/83/png-transparent-fiat-uno-car-suzuki-ignis-fiat-600-compact-car-car-subcompact-car.png',
+  };
+
   return (
     <Container>
       <StatusBar
@@ -21,6 +33,8 @@ export function Home() {
           <TotalCars>Total de 12 carros</TotalCars>
         </HeaderContent>
       </Header>
+
+      <Car data={carData} />
     </Container>
   );
 }
