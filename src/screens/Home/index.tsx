@@ -16,7 +16,7 @@ export function Home() {
       period: 'diária',
     },
     thumbnail:
-      'https://w7.pngwing.com/pngs/466/83/png-transparent-fiat-uno-car-suzuki-ignis-fiat-600-compact-car-car-subcompact-car.png',
+      'https://uno.fiat.com.br/content/dam/fiat/products/195/a4z/2/2021/page/profile.png',
   };
 
   return (
