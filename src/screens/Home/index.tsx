@@ -17,19 +17,8 @@ export function Home() {
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation<any>();
 
-  const carData = {
-    brand: 'Fiat',
-    name: 'Uno',
-    rent: {
-      price: 100,
-      period: 'diária',
-    },
-    thumbnail:
-      'https://uno.fiat.com.br/content/dam/fiat/products/195/a4z/2/2021/page/profile.png',
-  };
-
-  function handleCarDetails() {
-    navigation.navigate('CarDetails');
+  function handleCarDetails(car: CarDTO) {
+    navigation.navigate('CarDetails', { car });
   }
 
   useEffect(() => {
@@ -69,7 +58,7 @@ export function Home() {
           data={cars}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Car data={item} onPress={handleCarDetails} />
+            <Car data={item} onPress={() => handleCarDetails(item)} />
           )}
         />
       )}

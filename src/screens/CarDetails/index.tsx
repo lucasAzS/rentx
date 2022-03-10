@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -29,56 +29,59 @@ import {
   Accessories,
   Footer,
 } from './styles';
+import { CarDTO } from 'src/dtos/CarDTO';
+
+interface Params {
+  car: CarDTO;
+}
 
 export function CarDetails() {
   const navigation = useNavigation<any>();
+  const route = useRoute();
+  const { car } = route.params as Params;
 
   function handleConfirmRental() {
     navigation.navigate('Scheduling');
   }
 
+  function handleGoBack() {
+    navigation.goBack();
+  }
+
   return (
     <Container>
       <Header>
-        <BackButton onPress={() => {}} />
+        <BackButton onPress={handleGoBack} />
       </Header>
 
       <CarImages>
-        <ImageSlider
-          imagesUrl={[
-            'https://uno.fiat.com.br/content/dam/fiat/products/195/a4z/2/2021/page/profile.png',
-          ]}
-        />
+        <ImageSlider imagesUrl={car.photos} />
       </CarImages>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Fiat</Brand>
-            <Name>Uno</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>Ao Dia</Period>
-            <Price>R$ 100,00</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>R$ {car.rent.price}</Price>
           </Rent>
         </Details>
 
         <Accessories>
-          <Accessory name='380Km/h' icon={SpeedSvg} />
-          <Accessory name='3.2s' icon={AccelerationSvg} />
-          <Accessory name='800 HP' icon={ForceSvg} />
-          <Accessory name='Gasolina' icon={GasolineSvg} />
-          <Accessory name='Auto' icon={ExchangeSvg} />
-          <Accessory name='2 Pessoas' icon={PeopleSvg} />
+          {car.accessories.map((accessory) => (
+            <Accessory
+              key={accessory.type}
+              name={accessory.name}
+              icon={SpeedSvg}
+            />
+          ))}
         </Accessories>
 
-        <About>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis
-          placeat laboriosam esse, minima obcaecati et tempora nam ex vitae
-          perferendis doloremque minus odit nostrum officia distinctio! Labore
-          dicta natus voluptatum.
-        </About>
+        <About> {car.about} </About>
       </Content>
 
       <Footer>
