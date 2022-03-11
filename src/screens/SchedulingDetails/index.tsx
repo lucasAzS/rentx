@@ -72,6 +72,11 @@ export function SchedulingDetails() {
       ...dates,
     ];
 
+    await api.post(`/schedules_byuser`, {
+      car,
+      user_id: 1,
+    });
+
     api
       .put(`/schedules_bycars/${car.id}`, { id: car.id, unavailable_dates })
       .then(() => navigation.navigate('SchedulingComplete'))
