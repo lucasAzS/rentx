@@ -53,6 +53,7 @@ interface RentailPeriod {
 }
 
 export function SchedulingDetails() {
+  const [loading, setLoading] = useState(false);
   const [rentalPeriod, setRentalPeriod] = useState<RentailPeriod>(
     {} as RentailPeriod
   );
@@ -72,6 +73,8 @@ export function SchedulingDetails() {
       ...dates,
     ];
 
+    setLoading(true);
+
     await api.post(`/schedules_byuser`, {
       car,
       user_id: 1,
@@ -85,7 +88,10 @@ export function SchedulingDetails() {
     api
       .put(`/schedules_bycars/${car.id}`, { id: car.id, unavailable_dates })
       .then(() => navigation.navigate('SchedulingComplete'))
-      .catch(() => Alert.alert('Não foi possível realizar a locação'));
+      .catch(() => {
+        Alert.alert('Não foi possível realizar a locação');
+        setLoading(false);
+      });
   }
   function handleGoBack() {
     navigation.goBack();
@@ -174,6 +180,8 @@ export function SchedulingDetails() {
           title='Alugar Agora'
           color={theme.colors.success}
           onPress={handleConfirmRental}
+          enabled={!loading}
+          loading={loading}
         />
       </Footer>
     </Container>
