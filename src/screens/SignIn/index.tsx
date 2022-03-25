@@ -4,7 +4,10 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
+import * as Yup from 'yup';
+
 import { useTheme } from 'styled-components';
 
 import { Button } from '../../components/Button';
@@ -16,6 +19,26 @@ import { Container, Header, Title, SubTitle, Footer, Form } from './styles';
 export function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  async function handleSigIn() {
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required('Email Obrigatório')
+          .email('Digite um Email Válido'),
+        password: Yup.string().required('A Senha é Obrigatória'),
+      });
+
+      await schema.validate({ email, password });
+      Alert.alert('Tudo certo!');
+    } catch (e) {
+      if (e instanceof Yup.ValidationError) {
+        return Alert.alert('Opa', e.message);
+      } else {
+        Alert.alert('Erro na autenticação', 'Verifique as credenciais');
+      }
+    }
+  }
 
   const theme = useTheme();
 
@@ -58,8 +81,8 @@ export function SignIn() {
           <Footer>
             <Button
               title='Login'
-              onPress={() => {}}
-              enabled={false}
+              onPress={handleSigIn}
+              enabled={true}
               loading={false}
             />
 
