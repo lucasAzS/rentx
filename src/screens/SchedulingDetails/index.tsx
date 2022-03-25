@@ -87,7 +87,13 @@ export function SchedulingDetails() {
 
     api
       .put(`/schedules_bycars/${car.id}`, { id: car.id, unavailable_dates })
-      .then(() => navigation.navigate('SchedulingComplete'))
+      .then(() => {
+        navigation.navigate('Confirmation', {
+          nextScreenRoute: 'Home',
+          title: 'Carro Alugado!',
+          message: `Agora você só precisa ir\n até a concessionaria da RENTX\n e pegar seu automóvel`,
+        });
+      })
       .catch(() => {
         Alert.alert('Não foi possível realizar a locação');
         setLoading(false);
