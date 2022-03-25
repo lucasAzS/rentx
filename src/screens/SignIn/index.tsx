@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   StatusBar,
   KeyboardAvoidingView,
@@ -17,6 +18,9 @@ import { PasswordInput } from '../../components/PasswordInput';
 import { Container, Header, Title, SubTitle, Footer, Form } from './styles';
 
 export function SignIn() {
+  const theme = useTheme();
+  const navigation = useNavigation<any>();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -40,7 +44,9 @@ export function SignIn() {
     }
   }
 
-  const theme = useTheme();
+  function handleNewAccount() {
+    navigation.navigate('SignUpFirstStep');
+  }
 
   return (
     <KeyboardAvoidingView behavior='position' enabled>
@@ -90,8 +96,8 @@ export function SignIn() {
               title='Criar Conta'
               color={theme.colors.background_primary}
               light
-              onPress={() => {}}
-              enabled={false}
+              onPress={handleNewAccount}
+              enabled={true}
               loading={false}
             />
           </Footer>
