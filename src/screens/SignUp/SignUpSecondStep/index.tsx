@@ -14,6 +14,8 @@ import { Button } from '../../../components/Button';
 
 import { Bullet } from '../../../components/Bullet';
 
+import { api } from '../../../services/api';
+
 import {
   Container,
   Header,
@@ -46,7 +48,7 @@ export function SignUpSecondStep() {
     navigation.goBack();
   }
 
-  function handleRegister() {
+  async function handleRegister() {
     if (!password || !passwordConfirm) {
       return Alert.alert('Informe a senha e sua confirmação');
     }
@@ -55,11 +57,23 @@ export function SignUpSecondStep() {
       return Alert.alert('As senhas não são iguais');
     }
 
-    navigation.navigate('Confirmation', {
-      nextScreenRoute: 'SignIn',
-      title: 'Conta Criada!',
-      message: `Agora é só fazer o login \n e aproveitar`,
-    });
+    await api
+      .post('/users', {
+        name: user.name,
+        email: user.email,
+        driver_license: user.driverLicense,
+        password,
+      })
+      .then(() => {
+        navigation.navigate('Confirmation', {
+          nextScreenRoute: 'SignIn',
+          title: 'Conta Criada!',
+          message: `Agora é só fazer o login \n e aproveitar`,
+        });
+      })
+      .catch(() => {
+        Alert.alert('Opa', 'Não foi possível criar sua conta');
+      });
   }
 
   return (
