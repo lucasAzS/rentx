@@ -8,7 +8,7 @@ import { Container, ImageIndexes, CarImageWrapper, CarImage } from './styles';
 interface Props {
   imagesUrl: {
     id: string;
-    photos: string;
+    photo: string;
   }[];
 }
 
@@ -38,7 +38,7 @@ export function ImageSlider({ imagesUrl }: Props) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <CarImageWrapper>
-            <CarImage source={{ uri: item.photos }} resizeMode='contain' />
+            <CarImage source={{ uri: item.photo }} resizeMode='contain' />
           </CarImageWrapper>
         )}
         horizontal
