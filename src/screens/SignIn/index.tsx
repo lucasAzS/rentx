@@ -10,6 +10,7 @@ import {
 import * as Yup from 'yup';
 
 import { useTheme } from 'styled-components';
+import { useAuth } from '../../hooks/auth';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -20,6 +21,7 @@ import { Container, Header, Title, SubTitle, Footer, Form } from './styles';
 export function SignIn() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
+  const { signIn } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,6 +37,8 @@ export function SignIn() {
 
       await schema.validate({ email, password });
       Alert.alert('Tudo certo!');
+
+      signIn({ email, password });
     } catch (e) {
       if (e instanceof Yup.ValidationError) {
         return Alert.alert('Opa', e.message);
